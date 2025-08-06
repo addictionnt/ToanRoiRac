@@ -6,5 +6,6 @@
 
 **Lớp:** CNTT 18-01
 
+Đường dẫn tải code
 ```html
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+git clone https://github.com/addictionnt/ToanRoiRac
