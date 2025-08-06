@@ -6,6 +6,6 @@
 
 **Lớp:** CNTT 18-01
 
-Đường dẫn tải code
+**Đường dẫn tải code**
 ```html
 git clone https://github.com/addictionnt/ToanRoiRac
