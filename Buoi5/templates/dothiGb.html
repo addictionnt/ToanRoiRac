@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đồ thị Ga</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <a class="btn btn-primary" href="{{ url_for('views.index') }}">Trở về</a>
+    <div class="container-flex">
+        <div >
+        <h1>Hình G<sub>b</sub></h1>
+        <h2 style="color: black;">Độ liên thông: {{ connected_statusb }}</h2>
+        <img src="data:image/png;base64,{{ image_b }}">
+    </div>
+    <div>
+            <h1>Thông tin chi tiết của từng đỉnh</h1>
+
+            {% for node, details in all_node_detailsb.items() %}
+            <div class="node-info-container">
+                <h2>Đỉnh {{ node }}</h2>
+                <div class="info-row">
+                    <div class="info-item">
+                        <p><span class="label">Bậc:</span> 
+                        {% if details.level == -1 %}
+                            Không thể đến được từ đỉnh {{ start_node }}
+                        {% else %}
+                            {{ details.degree }}
+                        {% endif %}
+                        </p>
+                    </div>
+                    
+                    <div class="info-item">
+                        <p><span class="label">Các đỉnh kề:</span>
+                            <ul class="neighbor-list">
+                                {% for neighbor in details.neighbors %}
+                                    <li>{{ neighbor }}</li>
+                                {% endfor %}
+                            </ul>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+                <p>Không có dữ liệu.</p>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>

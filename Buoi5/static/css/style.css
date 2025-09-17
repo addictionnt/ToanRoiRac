@@ -1,0 +1,82 @@
+.container-flex {
+    display: flex; /* This is the key property */
+    gap: 20px; /* Adds a gap between the two divs for spacing */
+    align-items: flex-start; /* Aligns items to the top */
+}
+body {
+    font-family: Arial, 
+    sans-serif; 
+    margin: 2em; 
+    line-height: 1; 
+}
+
+.node-info-container {
+    margin-bottom: 1.5em; 
+    padding: 1em; 
+    border: 1px solid #ccc; 
+    border-radius: 8px; }
+
+.node-info-container h2 {
+    margin-top: 0; 
+    color: #007bff; 
+}
+
+
+.info-row {
+    display: flex; 
+    flex-wrap: wrap; 
+    gap: 10px; 
+    align-items: flex-start;
+}
+.info-item {
+    display: flex; 
+    align-items: center; 
+}
+
+.info-item .label {
+    font-weight: bold;
+    margin-right: 5px; 
+}
+.neighbor-list { 
+    list-style-type: none; 
+    padding: 0; 
+    margin: 0; 
+    display: flex; 
+    flex-wrap: wrap;
+}
+.neighbor-list li {
+    background-color: #f0f8ff; 
+    border: 1px solid #cceeff; 
+    padding: 0.2em 0.8em; 
+    margin: 0 0.5em 0.5em 0; 
+    border-radius: 5px; 
+}
+.btn {
+  display: inline-block;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #212529;
+  text-align: center;
+  text-decoration: none;
+  vertical-align: middle;
+  cursor: pointer;
+  user-select: none;
+  background-color: transparent;
+  border: 1px solid transparent;
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  border-radius: 0.375rem;
+  transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+}
+
+.btn-primary {
+  color: #fff;
+  background-color: #0d6efd;
+  border-color: #0d6efd;
+}
+
+.btn-cam {
+  color: #fff;
+  background-color: orange;
+  border-color: orange;
+}
