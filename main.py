@@ -1,3 +1,6 @@
+from graph_thanhchinh.graph import *
+
+nodes = [1 , 2, 3, 4, 5,6,7,8]
 edges = [
     (3, 2, -4),
     (4, 5, -3),
@@ -73,13 +76,9 @@ def kruskals_mst(V, edges):
                 
     return cost
 
-cost = kruskals_mst(9, edges)
+#---------------------------------------------------------
 
-print(cost)
-
-
-
-mport sys
+import sys
 class Graph():
 
     def __init__(self, vertices):
@@ -139,3 +138,132 @@ def primMST(self):
     
     # TRẢ VỀ: (tổng trọng số, danh sách các cạnh)
     return total_weight, mst_edges
+
+#---------------------------------------
+
+import heapq
+import sys
+
+# Hàm xây dựng Danh sách Kề (Adjacency List)
+def constructAdj(edges, V):
+    # adj[u] = list of (v, wt)
+    adj = [[] for _ in range(V)]
+    
+    for edge in edges:
+        u, v, wt = edge
+        adj[u].append((v, wt))
+        # Vì đồ thị là vô hướng, nên thêm cạnh cho cả hai chiều (v, u)
+        adj[v].append((u, wt)) 
+    return adj
+
+# Hàm triển khai Thuật toán Dijkstra
+def dijkstra(V, edges, src):
+    adj = constructAdj(edges, V)
+    pq = []
+    
+    dist = [sys.maxsize] * V
+    prev = [None] * V  # Thêm mảng lưu đỉnh liền trước
+    
+    heapq.heappush(pq, [0, src])
+    dist[src] = 0
+    # prev[src] giữ nguyên là None
+
+    while pq:
+        d_u, u = heapq.heappop(pq) 
+
+        if d_u > dist[u]:
+            continue
+            
+        for v, weight in adj[u]:
+            
+            if dist[v] > dist[u] + weight:
+                dist[v] = dist[u] + weight
+                prev[v] = u  # Ghi lại đỉnh u là đỉnh liền trước của v
+                heapq.heappush(pq, [dist[v], v])
+
+    return dist, prev
+
+src_char = 'a'
+
+# Danh sách các cạnh: (u, v, trọng số)
+edges_char = [
+    ('a', 'b', 4), ('a', 'c', 3), 
+    ('b', 'c', 2), ('b', 'd', 5), 
+    ('c', 'd', 3), ('c', 'e', 6), 
+    ('d', 'e', 1), ('d', 'f', 5), 
+    ('e', 'g', 5), 
+    ('f', 'g', 2), ('f', 'z', 7), 
+    ('g', 'z', 4)
+]
+# --- HÀM TÁI TẠO ĐƯỜNG ĐI (Cần thiết để sử dụng mảng 'prev') ---
+def get_path(predecessors, target_node):
+    """Tái tạo đường đi từ mảng đỉnh liền trước."""
+    path = []
+    at = target_node
+    while at is not None:
+        path.append(at)
+        at = predecessors[at]
+    path.reverse()
+    return path
+
+# --- PHẦN THỰC THI (VIẾT TIẾP) ---
+
+# 1. Tạo ánh xạ từ chữ cái sang số nguyên (0, 1, 2, ...)
+all_nodes = set()
+for u, v, wt in edges_char:
+    all_nodes.add(u)
+    all_nodes.add(v)
+    
+# Sắp xếp các đỉnh để đảm bảo ánh xạ ổn định
+sorted_nodes = sorted(list(all_nodes)) 
+MAPPING = {node: i for i, node in enumerate(sorted_nodes)}
+REVERSE_MAPPING = {i: node for node, i in MAPPING.items()}
+V = len(sorted_nodes) # V = 8
+
+# 2. Chuyển đổi dữ liệu đồ thị sang chỉ số số nguyên
+src_index = MAPPING[src_char]
+edges_index = []
+for u, v, wt in edges_char:
+    edges_index.append((MAPPING[u], MAPPING[v], wt))
+
+# 3. Chạy thuật toán Dijkstra với chỉ số số nguyên
+distances_index, predecessors_index = dijkstra(V, edges_index, src_index)
+
+# 4. Tập hợp và trả về kết quả
+results = []
+for target_char in sorted_nodes:
+    if target_char == src_char:
+        continue
+
+    target_index = MAPPING[target_char]
+    
+    # Lấy khoảng cách (Tổng chi phí)
+    total_cost = distances_index[target_index]
+    
+    # Lấy đường đi (List các chỉ số)
+    path_indices = get_path(predecessors_index, target_index)
+    
+    # Chuyển đường đi từ chỉ số sang chữ cái
+    path_chars = [REVERSE_MAPPING[i] for i in path_indices]
+    
+    # Thêm vào List kết quả
+    results.append({
+        'đỉnh_đích': target_char,
+        'tổng_chi_phí': total_cost,
+        'đường_đi': path_chars
+    })
+
+# Trả về List kết quả cuối cùng
+print("--- KẾT QUẢ DIJKSTRA ---")
+for res in results:
+    path_str = " -> ".join(res['đường_đi'])
+    print(f"Đích: {res['đỉnh_đích']} | Chi phí: {res['tổng_chi_phí']:<2} | Đường đi: {path_str}")
+
+
+
+
+
+
+    
+    
+    
